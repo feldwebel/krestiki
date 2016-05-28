@@ -26,25 +26,25 @@ class TurnAction implements IAction {
 
         $model->savePosition($user, serialize($position));
 
-        return $position;
+        return json_encode($position);
     }
 
     private function checkWin($position, $p, $row, $col)
     {
-        $left = ($col - 5) >= 0 ? $col -5 : 0;
+        $left = ($col - 5) >= 0 ? $col - 5 : 0;
         $right = ($col + 5) <= self::WIDTH ? $col + 5 : self::WIDTH;
         $top = ($row - 5) >= 0 ? $row -5 : 0;
-        $bottom = ($row -5) <= self::HEIGHT ? $row - 5 : self::HEIGHT;
+        $bottom = ($row + 5) <= self::HEIGHT ? $row + 5 : self::HEIGHT;
 
         $streak = 0;
         for ($i = $left; $i <= $right; $i++) {
-            $streak = ($position[$row][$i]) == $p ? $streak + 1 : 0;
+            $strek = ($position[$row][$i] === $p) ? $streak + 1 : 0;
             if ($streak == 5) return true;
         }
 
         $streak = 0;
         for ($i = $top; $i <= $bottom; $i++) {
-            $streak = ($position[$i][$col] == $p) ? $streak + 1 : 0;
+            $streak = $position[$i][$col] === $p ? $streak + 1 : 0;
             if ($streak == 5) return true;
         }
 
