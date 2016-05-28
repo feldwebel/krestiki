@@ -104,7 +104,8 @@
                 }
             );
     } else {
-        alert("Cell is already taken");
+        var $alert = ($gameOver) ? 'GameOver' : 'Cell is already taken';
+        alert($alert);
     }
     });
   </script>
