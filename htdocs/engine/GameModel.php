@@ -24,21 +24,15 @@ class GameModel extends BaseModel {
     public function savePosition($user, $position) {
         $query = $this->link->prepare('update `game` set `position` = ? where `user` like ?');
         $query->bind_param("ss", $position, $user);
-        $query->execute();
 
-        $data = $query->get_result();
-
-        return $data->affected_rows == 1;
+        return $query->execute();
     }
 
     public function saveEnd($user)
     {
         $query = $this->link->prepare('update `game` set `end` = NOW() where `user` like ?');
         $query->bind_param("s", $user);
-        $query->execute();
 
-        $data = $query->get_result();
-
-        return $data->affected_rows == 1;
+        return $query->execute();
     }
 }

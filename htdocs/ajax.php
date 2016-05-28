@@ -6,7 +6,7 @@ spl_autoload_register(function ($class) {
 
 $request = new HttpRequest($_POST);
 
-$action = (new ResolveAction($request))->resolve();
+$action = (new ActionResolver($request))->resolve();
 
 $result = $action->execute($request);
 

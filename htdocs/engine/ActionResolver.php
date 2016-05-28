@@ -1,6 +1,6 @@
 <?php
 
-class ResolveAction {
+class ActionResolver {
 
     private $allowedActions = ['start', 'turn', 'table'];
 
