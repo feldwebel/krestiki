@@ -2,10 +2,11 @@
 
 class GameModel extends BaseModel {
 
-    public function beginGame($user, $position)
+    public function beginGame($user, array $position)
     {
         $result = $this->link->prepare('insert `game` (`user`, `position`) values (?, ?)');
-        $result->bind_param('ss', $user, $position);
+        $serialized = serialize($position);
+        $result->bind_param('ss', $user, $serialized);
         $result->execute();
 
         return $result->error ? null : $result->affected_rows;
@@ -18,12 +19,13 @@ class GameModel extends BaseModel {
         $data = $query->get_result();
         $result = $data->fetch_object();
 
-        return $result->position;
+        return unserialize($result->position);
     }
 
     public function savePosition($user, $position) {
         $query = $this->link->prepare('update `game` set `position` = ? where `user` like ?');
-        $query->bind_param("ss", $position, $user);
+        $serialized = serialize($position);
+        $query->bind_param("ss", $serialized, $user);
 
         return $query->execute();
     }

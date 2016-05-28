@@ -6,13 +6,14 @@ class StartAction implements IAction {
     {
         $position = $this->getInitPosition();
 
-        $result =
-            (new GameModel())
-                ->beginGame($request->getOrElse('user'), $position);
+        (new GameModel())->beginGame($request->getOrElse('user'), $position);
 
         return new HttpResponse('lets start', $position);
     }
 
+    /**
+     * @return array
+     */
     private function getInitPosition()
     {
         $result = [];
@@ -21,6 +22,6 @@ class StartAction implements IAction {
                 $result[$i][$j] = 0;
             }
         }
-        return serialize($result);
+        return $result;
     }
 }

@@ -19,35 +19,51 @@ class TurnAction implements IAction {
         $row = $request->getOrElse('row');
         $col = $request->getOrElse('col');
 
-
-        $position = unserialize($this->model->getPosition($user));
+        $position = $this->model->getPosition($user);
 
         if ($position[$row][$col] == 0) {
             $position[$row][$col] = self::PLAYER;
         }
-        if ($this->checkWin($position, self::PLAYER, $row, $col)) {
+
+        if ($this->isWin($position, self::PLAYER, $row, $col)) {
             return
                 $this->gameOver('you win', $user, $position);
         }
+
         $this->AI($position);
-        if ($this->checkWin($position, self::AI, $row, $col)) {
+        if ($this->isWin($position, self::AI, $row, $col)) {
             return
                 $this->gameOver('you lose', $user, $position);
         }
 
-        $this->model->savePosition($user, serialize($position));
+        $this->model->savePosition($user, $position);
 
         return new HttpResponse('next turn', $position);
     }
 
-    private function gameOver($message, $user, $position)
+    /**
+     * @param string $message
+     * @param string $user
+     * @param array $position
+     * @return \HttpResponse
+     */
+    private function gameOver($message, $user, array $position)
     {
-        $this->model->saveEnd($user, $position);
+        $this->model->savePosition($user, $position);
+        $this->model->saveEnd($user);
         $time = $this->model->getTimeSpent($user);
         return new HttpResponse($message, $position, $time);
     }
 
-    private function checkWin($position, $p, $row, $col)
+    /**
+     *
+     * @param array $position
+     * @param string $p
+     * @param int $row
+     * @param int $col
+     * @return boolean
+     */
+    private function isWin(array $position, $p, $row, $col)
     {
         $streak = 0;
         for ($i = 0; $i <= self::SIZE; $i++) {
@@ -82,6 +98,9 @@ class TurnAction implements IAction {
         return false;
     }
 
+    /**
+     * @param array $position
+     */
     private function AI(array &$position)
     {
         $done = false;
@@ -95,6 +114,9 @@ class TurnAction implements IAction {
         }
     }
 
+    /**
+     * @return array
+     */
     private function generateCell()
     {
         return [rand(0, self::SIZE), rand(0, self::SIZE)];
