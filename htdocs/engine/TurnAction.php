@@ -2,8 +2,7 @@
 
 class TurnAction implements IAction {
 
-    const WIDTH = 19;
-    const HEIGHT = 19;
+    const SIZE = 19;
 
     private $model;
 
@@ -47,24 +46,30 @@ class TurnAction implements IAction {
 
     private function checkWin($position, $p, $row, $col)
     {
-        $left = ($col - 5) >= 0 ? $col - 5 : 0;
-        $right = ($col + 5) <= self::WIDTH ? $col + 5 : self::WIDTH;
-        $top = ($row - 5) >= 0 ? $row - 5 : 0;
-        $bottom = ($row + 5) <= self::HEIGHT ? $row + 5 : self::HEIGHT;
+        $left = ($col - 6) >= 0 ? $col - 6 : 0;
+        $right = ($col + 6) <= self::SIZE ? $col + 6 : self::SIZE;
+        $top = ($row - 6) >= 0 ? $row - 6 : 0;
+        $bottom = ($row + 6) <= self::SIZE ? $row + 6 : self::SIZE;
 
         $streak = 0;
-        for ($i = 0; $i <= self::WIDTH; $i++) {
+        for ($i = 0; $i <= self::SIZE; $i++) {
             $streak = ($position[$row][$i] === $p) ? $streak + 1 : 0;
             if ($streak == 5) return true;
         }
 
         $streak = 0;
-        for ($i = 0; $i <= self::HEIGHT; $i++) {
+        for ($i = 0; $i <= self::SIZE; $i++) {
             $streak = ($position[$i][$col] === $p) ? $streak + 1 : 0;
             if ($streak == 5) return true;
         }
 
-        $streak = 0;
+        $streak1 = $streak2 = 0;
+        for ($n = 0; $n <= self::SIZE; $n++ ) {
+            $streak1 = ($position[$n][$n] === $p) ? $streak1 + 1 : 0;
+            $streak2 = ($position[$n][self::SIZE - $n]) ? $streak2 + 1 : 0;
+            if ($streak1 == 5 || $streak2 == 5) return true;
+        }
+
         for ($n = 0; $n <= $right - $left; $n++) {
             $streak = ($position[$left+$n][$top+$n] === $p) ? $streak + 1 : 0;
             if ($streak == 5) return true;
@@ -94,6 +99,6 @@ class TurnAction implements IAction {
 
     private function generateCell()
     {
-        return [rand(0, self::HEIGHT), rand(0, self::WIDTH)];
+        return [rand(0, self::SIZE), rand(0, self::SIZE)];
     }
 }
