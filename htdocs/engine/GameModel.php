@@ -30,4 +30,15 @@ class GameModel extends BaseModel {
 
         return $data->affected_rows == 1;
     }
+
+    public function saveEnd($user)
+    {
+        $query = $this->link->prepare('update `game` set `end` = NOW() where `user` like ?');
+        $query->bind_param("s", $user);
+        $query->execute();
+
+        $data = $query->get_result();
+
+        return $data->affected_rows == 1;
+    }
 }

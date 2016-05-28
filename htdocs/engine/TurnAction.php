@@ -17,16 +17,18 @@ class TurnAction implements IAction {
             $position[$row][$col] = 'x';
         }
         if ($this->checkWin($position, 'x', $row, $col)) {
-            return 'you win';
+            $model->saveEnd($user);
+            return new HttpResponse('you win', $position);
         }
         $this->AI($position);
         if ($this->checkWin($position, 'o', $row, $col)) {
-            return 'you lose';
+            $model->saveEnd($user);
+            return new HttpResponse('you lose', $position);
         }
 
         $model->savePosition($user, serialize($position));
 
-        return json_encode($position);
+        return new HttpResponse('next turn', $position);
     }
 
     private function checkWin($position, $p, $row, $col)
@@ -54,8 +56,7 @@ class TurnAction implements IAction {
     private function AI(array &$position)
     {
         $done = false;
-        while (!$done)
-        {
+        while (!$done) {
             list($row, $col) = $this->generateCell();
 
             if ($position[$row][$col] == 0) {

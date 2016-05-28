@@ -20,14 +20,18 @@
 
   <div id="hallOfFame"></div>
 
+  <div id="yourName"></div>
+
   <script src="http://yastatic.net/jquery/2.2.3/jquery.min.js"></script>
   <script>
       $userId = '';
       $board = $('#board');
       $hallOfFame = $('#hallOfFame');
+      $gameOver = false;
 
     function generateBoard() {
         $board.empty();
+        $gameOver = false;
         for (i = 0; i < 20; i++) {
             $board.append('<div class="row" data-row='+i+'></div>');
             for (j = 0; j < 20; j++) {
@@ -54,7 +58,7 @@
         );
         generateBoard();
         $board.show();
-        $('#hallOfFame').hide();
+        $hallOfFame.hide();
     });
 
     $('#table').on('click', function(){
@@ -62,15 +66,18 @@
             'ajax.php',
             {action: 'table'},
             function(data){
-                generateTable(JSON.parse(data));
+                result = JSON.parse(data);
+                if (result['message'] === 'table') {
+                    generateTable(result['payload']);
+                }
             }
         );
         $board.hide();
-        $('#hallOfFame').show();
+        $hallOfFame.show();
     });
 
     $board.on('click', '.cell', function(){
-        if($(this).html() == '&nbsp;') {
+        if(!$gameOver && $(this).html() == '&nbsp;') {
             var row = $(this).parent().data('row');
             var col = $(this).data('column');
             $.post(
@@ -80,12 +87,20 @@
                     result = JSON.parse(data);
                     for (i = 0; i < 20; i++){
                         for (j = 0; j < 20; j++) {
-                            if (result[i][j] !== 0) {
-                                console.log(i, j, result[i][j]);
-                                $('#board .row:nth-child(' + (i+1) + ') .cell:nth-child(' + (j+1) + ')').html(result[i][j]);
+                            if (result['payload'][i][j] !== 0) {
+                                $('#board .row:nth-child(' + (i+1) + ') .cell:nth-child(' + (j+1) + ')').html(result['payload'][i][j]);
                             }
                         }
                     }
+                    if (result['message'] === 'you win') {
+                        $gameOver = true;
+
+                    }
+                    if (result['message'] === 'you lose') {
+                        $gameOver = true;
+                        alert('You lose! Game Over!');
+                    }
+
                 }
             );
     } else {

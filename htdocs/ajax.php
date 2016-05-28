@@ -10,4 +10,4 @@ $action = (new ResolveAction($request))->resolve();
 
 $result = $action->execute($request);
 
-echo $result;
+echo $result->make();
