@@ -1,9 +1,3 @@
-<?php
-error_reporting(-1);
-if (!isset($_COOKIE['test'])) {
-    setcookie('test', uniqid());
-}
-?>
 <!DOCTYPE html>
 <html>
  <head>
@@ -28,7 +22,7 @@ if (!isset($_COOKIE['test'])) {
 
   <script src="http://yastatic.net/jquery/2.2.3/jquery.min.js"></script>
   <script>
-      $userId = '<?= uniqid(); ?>';
+      $userId = '';
       $board = $('#board');
       $hallOfFame = $('#hallOfFame');
 
@@ -52,6 +46,7 @@ if (!isset($_COOKIE['test'])) {
     }
 
     $('#play').on('click', function(){
+        $userId = Math.random().toString(36);
         $.post(
             'ajax.php',
             {action: 'start', user: $userId},
@@ -68,11 +63,6 @@ if (!isset($_COOKIE['test'])) {
             {action: 'table'},
             function(data){
                 generateTable(JSON.parse(data));
-                table = JSON.parse(data);
-                console.log('table ' + data + table);
-                for (row in table) {
-                    console.log(table[row]);
-                }
             }
         );
         $board.hide();
@@ -83,7 +73,7 @@ if (!isset($_COOKIE['test'])) {
         if($(this).html() == '&nbsp;') {
         $.post(
             'ajax.php',
-            {action: turn, row: 1, cell: 1},
+            {action: turn, user: $userId, row: $(this).parent().data('row'), col: $(this).data('column')},
             function (data){console.log('response ' + data);}
         );
     } else {

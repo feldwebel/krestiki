@@ -1,14 +1,6 @@
 <?php
 
-class TableModel {
-
-    private $link;
-
-    public function __construct()
-    {
-        $this->link = DB::me()->getLink();
-        file_put_contents('log.txt', 'link: '.print_r($this->link, 1));
-    }
+class TableModel extends BaseModel {
 
     public function getHallOfFame()
     {
