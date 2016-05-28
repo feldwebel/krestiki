@@ -69,13 +69,24 @@
         $('#hallOfFame').show();
     });
 
-    $('#board').on('click', '.cell', function(){
+    $board.on('click', '.cell', function(){
         if($(this).html() == '&nbsp;') {
-        $.post(
-            'ajax.php',
-            {action: 'turn', user: $userId, row: $(this).parent().data('row'), col: $(this).data('column')},
-            function (data){console.log('response ' + data);}
-        );
+            var row = $(this).parent().data('row');
+            var col = $(this).data('column');
+            $.post(
+                'ajax.php',
+                {action: 'turn', user: $userId, row: row, col: col},
+                function (data){
+                    result = JSON.parse(data);
+                    for (i = 0; i < 20; i++){
+                        for (j = 0; j < 20; j++) {
+                            if (result[i][j] != 0) {
+                                $('#board .row:nth-child('+row+') .cell:nth-child('+ col + ')').html(result[i][j]);
+                            }
+                        }
+                    }
+                }
+            );
     } else {
         alert("Cell is already taken");
     }

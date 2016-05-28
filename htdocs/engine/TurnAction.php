@@ -53,13 +53,16 @@ class TurnAction implements IAction {
 
     private function AI(array &$position)
     {
-        do{
+        $done = false;
+        while (!$done)
+        {
             list($row, $col) = $this->generateCell();
 
             if ($position[$row][$col] == 0) {
                 $position[$row][$col] = 'o';
+                $done = true;
             }
-        } while ($position[$row][$col] == 'o');
+        }
     }
 
     private function generateCell()
