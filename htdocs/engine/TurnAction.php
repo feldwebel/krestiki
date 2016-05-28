@@ -53,14 +53,26 @@ class TurnAction implements IAction {
         $bottom = ($row + 5) <= self::HEIGHT ? $row + 5 : self::HEIGHT;
 
         $streak = 0;
-        for ($i = $left; $i <= $right; $i++) {
-            $strek = ($position[$row][$i] === $p) ? $streak + 1 : 0;
+        for ($i = 0; $i <= self::WIDTH; $i++) {
+            $streak = ($position[$row][$i] === $p) ? $streak + 1 : 0;
             if ($streak == 5) return true;
         }
 
         $streak = 0;
-        for ($i = $top; $i <= $bottom; $i++) {
-            $streak = $position[$i][$col] === $p ? $streak + 1 : 0;
+        for ($i = 0; $i <= self::HEIGHT; $i++) {
+            $streak = ($position[$i][$col] === $p) ? $streak + 1 : 0;
+            if ($streak == 5) return true;
+        }
+
+        $streak = 0;
+        for ($n = 0; $n <= $right - $left; $n++) {
+            $streak = ($position[$left+$n][$top+$n] === $p) ? $streak + 1 : 0;
+            if ($streak == 5) return true;
+        }
+
+        $streak = 0;
+        for ($n = 0; $n <= $right - $left; $n++) {
+            $streak = ($position[$left+$n][$bottom-$n] === $p) ? $streak + 1: 0;
             if ($streak == 5) return true;
         }
 
