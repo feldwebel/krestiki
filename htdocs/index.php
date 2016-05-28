@@ -80,8 +80,9 @@
                     result = JSON.parse(data);
                     for (i = 0; i < 20; i++){
                         for (j = 0; j < 20; j++) {
-                            if (result[i][j] != 0) {
-                                $('#board .row:nth-child('+row+') .cell:nth-child('+ col + ')').html(result[i][j]);
+                            if (result[i][j] !== 0) {
+                                console.log(i, j, result[i][j]);
+                                $('#board .row:nth-child(' + (i+1) + ') .cell:nth-child(' + (j+1) + ')').html(result[i][j]);
                             }
                         }
                     }
