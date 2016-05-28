@@ -3,10 +3,8 @@
 class TableAction implements IAction {
 
     public function execute(HttpRequest $request) {
-        $model = new TableModel();
-
         return
-            $this->parse($model->getHallOfFame());
+            $this->parse((new TableModel())->getHallOfFame());
     }
 
     private function parse(array $data)
