@@ -2,15 +2,18 @@
 
 class StartAction implements IAction {
 
-    public function execute(HttpRequest $request) {
+    public function execute(HttpRequest $request)
+    {
+        $position = $this->getInitPosition();
+
         $result =
             (new GameModel())
-                ->beginGame($request->getOrElse('user'), $this->getPosition());
+                ->beginGame($request->getOrElse('user'), $position);
 
-        return is_null($result) ? 'error' : 'lets start';
+        return new HttpResponse('lets start', $position);
     }
 
-    private function getPosition()
+    private function getInitPosition()
     {
         $result = [];
         for ($i = 0; $i < 20; $i++) {
