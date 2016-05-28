@@ -2,6 +2,14 @@
 
 class TableModel extends BaseModel {
 
+    public function saveNewChampion($name, $user, $time)
+    {
+        $query = $this->link->prepare('insert `result` (`user`, `name`, `time`) values (?, ?, ?)');
+        $query->bind_param("sss", $user, $name, $time);
+
+        return $query->execute();
+    }
+
     public function getHallOfFame()
     {
         $data = $this->getTable();
@@ -15,6 +23,6 @@ class TableModel extends BaseModel {
 
     private function getTable()
     {
-        return $this->link->query('select * from `result` order by `time` limit 50');
+        return $this->link->query('select * from `result` order by `time` ASC limit 50');
     }
 }

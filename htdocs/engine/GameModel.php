@@ -35,4 +35,15 @@ class GameModel extends BaseModel {
 
         return $query->execute();
     }
+
+    public function getTimeSpent($user)
+    {
+        $query = $this->link->prepare('select TIMEDIFF(`end`, `start`) spent from `game` where `user` like ?');
+        $query->bind_param('s', $user);
+        $query->execute();
+        $data = $query->get_result();
+        $result = $data->fetch_object();
+
+        return $result->spent;
+    }
 }

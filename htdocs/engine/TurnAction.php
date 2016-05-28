@@ -5,37 +5,51 @@ class TurnAction implements IAction {
     const WIDTH = 19;
     const HEIGHT = 19;
 
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new GameModel();
+    }
+
     public function execute(\HttpRequest $request) {
         $user = $request->getOrElse('user');
         $row = $request->getOrElse('row');
         $col = $request->getOrElse('col');
-        $model = new GameModel();
 
-        $position = unserialize($model->getPosition($user));
+
+        $position = unserialize($this->model->getPosition($user));
 
         if ($position[$row][$col] == 0) {
             $position[$row][$col] = 'x';
         }
         if ($this->checkWin($position, 'x', $row, $col)) {
-            $model->saveEnd($user);
-            return new HttpResponse('you win', $position);
+            return
+                $this->gameOver('you win', $user, $position);
         }
         $this->AI($position);
         if ($this->checkWin($position, 'o', $row, $col)) {
-            $model->saveEnd($user);
-            return new HttpResponse('you lose', $position);
+            return
+                $this->gameOver('you lose', $user, $position);
         }
 
-        $model->savePosition($user, serialize($position));
+        $this->model->savePosition($user, serialize($position));
 
         return new HttpResponse('next turn', $position);
+    }
+
+    private function gameOver($message, $user, $position)
+    {
+        $this->model->saveEnd($user, $position);
+        $time = $this->model->getTimeSpent($user);
+        return new HttpResponse($message, $position, $time);
     }
 
     private function checkWin($position, $p, $row, $col)
     {
         $left = ($col - 5) >= 0 ? $col - 5 : 0;
         $right = ($col + 5) <= self::WIDTH ? $col + 5 : self::WIDTH;
-        $top = ($row - 5) >= 0 ? $row -5 : 0;
+        $top = ($row - 5) >= 0 ? $row - 5 : 0;
         $bottom = ($row + 5) <= self::HEIGHT ? $row + 5 : self::HEIGHT;
 
         $streak = 0;

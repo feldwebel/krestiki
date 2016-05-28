@@ -2,7 +2,7 @@
 
 class ActionResolver {
 
-    private $allowedActions = ['start', 'turn', 'table'];
+    private $allowedActions = ['start', 'turn', 'table', 'winner'];
 
     private $request;
 
@@ -27,6 +27,7 @@ class ActionResolver {
                 return new TurnAction($this->request);
                 break;
             case 'table':
+            case 'winner':
                 return new TableAction($this->request);
                 break;
         }

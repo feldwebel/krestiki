@@ -6,6 +6,7 @@
   <style>
       #board {display: none;}
       #hallOfFame {display: none;}
+      #yourName {display:none;}
       .cell {display:inline-block; width:30px; height: 30px; background-color: #eeeeee; border:1px solid black;}
   </style>
  </head>
@@ -20,13 +21,17 @@
 
   <div id="hallOfFame"></div>
 
-  <div id="yourName"></div>
+  <div id="yourName">
+      <input type="hidden" name="time" id="timeSpent" />
+        Name: <input id="winner" name="name" />&nbsp;&nbsp;<button id="submit">Send</button>
+  </div>
 
   <script src="http://yastatic.net/jquery/2.2.3/jquery.min.js"></script>
   <script>
       $userId = '';
       $board = $('#board');
       $hallOfFame = $('#hallOfFame');
+      $yourName = $('#yourName');
       $gameOver = false;
 
     function generateBoard() {
@@ -54,11 +59,12 @@
         $.post(
             'ajax.php',
             {action: 'start', user: $userId},
-            function(data){console.log('data ' + data)}
+            function(data){}
         );
         generateBoard();
         $board.show();
         $hallOfFame.hide();
+        $yourName.hide();
     });
 
     $('#table').on('click', function(){
@@ -73,6 +79,7 @@
             }
         );
         $board.hide();
+        $yourName.hide();
         $hallOfFame.show();
     });
 
@@ -94,6 +101,8 @@
                     }
                     if (result['message'] === 'you win') {
                         $gameOver = true;
+                        $('#yourName').show();
+                        $('#timeSpent').val(result['time']);
 
                     }
                     if (result['message'] === 'you lose') {
@@ -103,10 +112,24 @@
 
                 }
             );
-    } else {
-        var $alert = ($gameOver) ? 'GameOver' : 'Cell is already taken';
-        alert($alert);
-    }
+        } else {
+            var $alert = ($gameOver) ? 'GameOver' : 'Cell is already taken';
+            alert($alert);
+        }
+    });
+
+    $('#submit').on('click', function(){
+        $.post(
+            'ajax.php',
+            {action: 'winner', user: $userId, name: $('#winner').val(), time: $('#timeSpent').val()},
+            function(data){
+                result = JSON.parse(data);
+                $board.hide();
+                $yourName.hide();
+                $hallOfFame.show();
+                generateTable(result['payload']);
+            }
+        );
     });
   </script>
 
