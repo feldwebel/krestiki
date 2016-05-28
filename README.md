@@ -1,0 +1,3 @@
+# krestiki
+
+TicTacToe as exercise.
