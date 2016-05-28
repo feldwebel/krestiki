@@ -15,7 +15,7 @@ class TableModel extends BaseModel {
         $data = $this->getTable();
         $result = [];
         while ($row = $data->fetch_object()) {
-            $result[$row->id] = [$row->name, $row->time];
+            $result[$row->id] = [htmlspecialchars($row->name), htmlspecialchars($row->time)];
         }
 
         return $result;

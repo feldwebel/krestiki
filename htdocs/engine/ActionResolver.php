@@ -22,14 +22,11 @@ class ActionResolver {
         switch ($action) {
             case 'start':
                 return new StartAction($this->request);
-                break;
             case 'turn':
                 return new TurnAction($this->request);
-                break;
             case 'table':
             case 'winner':
                 return new TableAction($this->request);
-                break;
         }
     }
 }

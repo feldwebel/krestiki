@@ -3,6 +3,9 @@
 class TurnAction implements IAction {
 
     const SIZE = 19;
+    const STREAK = 5;
+    const PLAYER = 'x';
+    const AI = 'o';
 
     private $model;
 
@@ -20,14 +23,14 @@ class TurnAction implements IAction {
         $position = unserialize($this->model->getPosition($user));
 
         if ($position[$row][$col] == 0) {
-            $position[$row][$col] = 'x';
+            $position[$row][$col] = self::PLAYER;
         }
-        if ($this->checkWin($position, 'x', $row, $col)) {
+        if ($this->checkWin($position, self::PLAYER, $row, $col)) {
             return
                 $this->gameOver('you win', $user, $position);
         }
         $this->AI($position);
-        if ($this->checkWin($position, 'o', $row, $col)) {
+        if ($this->checkWin($position, self::AI, $row, $col)) {
             return
                 $this->gameOver('you lose', $user, $position);
         }
@@ -46,11 +49,6 @@ class TurnAction implements IAction {
 
     private function checkWin($position, $p, $row, $col)
     {
-        $left = ($col - 6) >= 0 ? $col - 6 : 0;
-        $right = ($col + 6) <= self::SIZE ? $col + 6 : self::SIZE;
-        $top = ($row - 6) >= 0 ? $row - 6 : 0;
-        $bottom = ($row + 6) <= self::SIZE ? $row + 6 : self::SIZE;
-
         $streak = 0;
         for ($i = 0; $i <= self::SIZE; $i++) {
             $streak = ($position[$row][$i] === $p) ? $streak + 1 : 0;
@@ -63,22 +61,22 @@ class TurnAction implements IAction {
             if ($streak == 5) return true;
         }
 
-        $streak1 = $streak2 = 0;
-        for ($n = 0; $n <= self::SIZE; $n++ ) {
-            $streak1 = ($position[$n][$n] === $p) ? $streak1 + 1 : 0;
-            $streak2 = ($position[$n][self::SIZE - $n]) ? $streak2 + 1 : 0;
-            if ($streak1 == 5 || $streak2 == 5) return true;
+        for ($n = 0; $n <= self::SIZE - self::STREAK; $n++) {
+            $streak1 = $streak2 = 0;
+            for ($m = 0; $m <= self::SIZE - $n; $m++) {
+                $streak1 = ($position[$m][$m + $n] === $p) ? $streak1 + 1 : 0;
+                $streak2 = ($position[$m + $n][$m] === $p) ? $streak2 + 1 : 0;
+                if ($streak1 == self::STREAK || $streak2 == self::STREAK) return true;
+            }
         }
 
-        for ($n = 0; $n <= $right - $left; $n++) {
-            $streak = ($position[$left+$n][$top+$n] === $p) ? $streak + 1 : 0;
-            if ($streak == 5) return true;
-        }
-
-        $streak = 0;
-        for ($n = 0; $n <= $right - $left; $n++) {
-            $streak = ($position[$left+$n][$bottom-$n] === $p) ? $streak + 1: 0;
-            if ($streak == 5) return true;
+        for ($n = self::STREAK-1; $n <= self::SIZE; $n++) {
+            $streak1 = $streak2 = 0;
+            for ($m = 0; $m <= $n; $m++) {
+                $streak1 = ($position[$m][$n - $m] === $p) ? $streak1 + 1 : 0;
+                $streak2 = ($position[self::SIZE - $n + $m][self::SIZE - $m] === $p) ? $streak2 + 1 : 0;
+                if ($streak1 == self::STREAK || $streak2 == self::STREAK) return true;
+            }
         }
 
         return false;
@@ -91,7 +89,7 @@ class TurnAction implements IAction {
             list($row, $col) = $this->generateCell();
 
             if ($position[$row][$col] == 0) {
-                $position[$row][$col] = 'o';
+                $position[$row][$col] = self::AI;
                 $done = true;
             }
         }
