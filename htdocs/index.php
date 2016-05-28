@@ -73,7 +73,7 @@
         if($(this).html() == '&nbsp;') {
         $.post(
             'ajax.php',
-            {action: turn, user: $userId, row: $(this).parent().data('row'), col: $(this).data('column')},
+            {action: 'turn', user: $userId, row: $(this).parent().data('row'), col: $(this).data('column')},
             function (data){console.log('response ' + data);}
         );
     } else {
