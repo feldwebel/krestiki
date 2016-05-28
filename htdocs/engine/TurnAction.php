@@ -57,15 +57,13 @@ class TurnAction implements IAction {
             list($row, $col) = $this->generateCell();
 
             if ($position[$row][$col] == 0) {
-                $position[$row][$col] == 'o';
+                $position[$row][$col] = 'o';
             }
-        } while ($position[$row][$col] = 'o');
-
-        return $position;
+        } while ($position[$row][$col] == 'o');
     }
 
     private function generateCell()
     {
-        return [rand(0, 19), rand(0, 19)];
+        return [rand(0, self::HEIGHT), rand(0, self::WIDTH)];
     }
 }

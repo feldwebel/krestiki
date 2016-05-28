@@ -8,20 +8,26 @@ class GameModel extends BaseModel {
         $result->bind_param('ss', $user, $position);
         $result->execute();
 
-        file_put_contents('log.txt', print_r($result->error, 1));
-
         return $result->error ? null : $result->affected_rows;
     }
 
     public function getPosition($user) {
-        $result = $this->link->prepare('select * from `game` where `user` = ?');
-        $result->bind_param("s", $user);
-        $data = $result->execute()->fetch_object;
+        $query = $this->link->prepare('select `position` from `game` where `user` like ?');
+        $query->bind_param("s", $user);
+        $query->execute();
+        $data = $query->get_result();
+        $result = $data->fetch_object();
 
-        return $data->position;
+        return $result->position;
     }
 
     public function savePosition($user, $position) {
+        $query = $this->link->prepare('update `game` set `position` = ? where `user` like ?');
+        $query->bind_param("ss", $position, $user);
+        $query->execute();
 
+        $data = $query->get_result();
+
+        return $data->affected_rows == 1;
     }
 }
