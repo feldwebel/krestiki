@@ -4,8 +4,6 @@ class TurnAction implements IAction {
 
     const SIZE = 19;
     const STREAK = 5;
-    const PLAYER = 'x';
-    const AI = 'o';
 
     private $model;
 
