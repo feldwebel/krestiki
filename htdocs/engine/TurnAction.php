@@ -65,16 +65,11 @@ class TurnAction implements IAction {
      */
     private function isWin(array $position, $p, $row, $col)
     {
-        $streak = 0;
+        $streak1 = $streak2 = 0;
         for ($i = 0; $i <= self::SIZE; $i++) {
-            $streak = ($position[$row][$i] === $p) ? $streak + 1 : 0;
-            if ($streak == 5) return true;
-        }
-
-        $streak = 0;
-        for ($i = 0; $i <= self::SIZE; $i++) {
-            $streak = ($position[$i][$col] === $p) ? $streak + 1 : 0;
-            if ($streak == 5) return true;
+            $streak1 = ($position[$row][$i] === $p) ? $streak1 + 1 : 0;
+            $streak2 = ($position[$i][$col] === $p) ? $streak2 + 1 : 0;
+            if ($streak1 == self::STREAK || $streak2 == self::STREAK) return true;
         }
 
         for ($n = 0; $n <= self::SIZE - self::STREAK; $n++) {
