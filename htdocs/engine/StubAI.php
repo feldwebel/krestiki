@@ -4,12 +4,9 @@ class StubAI implements IArtificialIntellect {
 
     private $width;
 
-    private $aiMarker;
-
-    public function __construct($width = 19, $ai = 'o')
+    public function __construct($width = 19)
     {
         $this->width = $width;
-        $this->aiMarker = $ai;
     }
 
     public function makeTurn(array $position) {
@@ -17,8 +14,8 @@ class StubAI implements IArtificialIntellect {
         while (!$done) {
             list($row, $col) = $this->generateCell();
 
-            if ($position[$row][$col] == 0) {
-                $position[$row][$col] = $this->aiMarker;
+            if (CellStateEnum::isFree($position[$row][$col])) {
+                $position[$row][$col] = CellStateEnum::AI;
                 $done = true;
             }
         }

@@ -14,7 +14,7 @@ class TurnAction implements IAction {
     public function __construct()
     {
         $this->model = new GameModel();
-        $this->ai = new StubAI(self::SIZE, self::AI);
+        $this->ai = new StubAI(self::SIZE);
     }
 
     public function execute(\HttpRequest $request) {
@@ -24,17 +24,17 @@ class TurnAction implements IAction {
 
         $position = $this->model->getPosition($user);
 
-        if ($position[$row][$col] == 0) {
-            $position[$row][$col] = self::PLAYER;
+        if (CellStateEnum::isFree($position[$row][$col])) {
+            $position[$row][$col] = CellStateEnum::USER;
         }
 
-        if ($this->isWin($position, self::PLAYER, $row, $col)) {
+        if ($this->isWin($position, CellStateEnum::USER, $row, $col)) {
             return
                 $this->gameOver('you win', $user, $position);
         }
 
         $position = $this->ai->makeTurn($position);
-        if ($this->isWin($position, self::AI, $row, $col)) {
+        if ($this->isWin($position, CellStateEnum::AI, $row, $col)) {
             return
                 $this->gameOver('you lose', $user, $position);
         }
