@@ -9,9 +9,12 @@ class TurnAction implements IAction {
 
     private $model;
 
+    private $ai;
+
     public function __construct()
     {
         $this->model = new GameModel();
+        $this->ai = new StubAI(self::SIZE, self::AI);
     }
 
     public function execute(\HttpRequest $request) {
@@ -30,7 +33,7 @@ class TurnAction implements IAction {
                 $this->gameOver('you win', $user, $position);
         }
 
-        $this->AI($position);
+        $position = $this->ai->makeTurn($position);
         if ($this->isWin($position, self::AI, $row, $col)) {
             return
                 $this->gameOver('you lose', $user, $position);
@@ -91,29 +94,5 @@ class TurnAction implements IAction {
         }
 
         return false;
-    }
-
-    /**
-     * @param array $position
-     */
-    private function AI(array &$position)
-    {
-        $done = false;
-        while (!$done) {
-            list($row, $col) = $this->generateCell();
-
-            if ($position[$row][$col] == 0) {
-                $position[$row][$col] = self::AI;
-                $done = true;
-            }
-        }
-    }
-
-    /**
-     * @return array
-     */
-    private function generateCell()
-    {
-        return [rand(0, self::SIZE), rand(0, self::SIZE)];
     }
 }
