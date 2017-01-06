@@ -17,7 +17,7 @@ class DB {
 
     private function __construct()
     {
-        $this->link = new mysqli('localhost', 'admin', 'password', 'test_base');
+        $this->link = new mysqli('localhost', 'admin', 'password', 'krestiki_dev');
     }
 
     public function getLink()
