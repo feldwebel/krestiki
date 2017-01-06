@@ -1,5 +1,11 @@
 <?php
 
+namespace Actions;
+
+use HttpRequest;
+use HttpResponse;
+use Models\TableModel;
+
 class TableAction implements IAction {
 
     public function execute(HttpRequest $request)

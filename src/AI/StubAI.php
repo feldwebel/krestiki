@@ -1,5 +1,9 @@
 <?php
 
+namespace AI;
+
+use CellStateEnum;
+
 class StubAI implements IArtificialIntellect {
 
     private $width;

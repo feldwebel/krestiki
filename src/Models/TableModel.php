@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class TableModel extends BaseModel {
 
     public function saveNewChampion($name, $user, $time)

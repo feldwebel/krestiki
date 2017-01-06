@@ -1,5 +1,11 @@
 <?php
 
+namespace Actions;
+
+use HttpRequest;
+use HttpResponse;
+use Models\GameModel;
+
 class StartAction implements IAction {
 
     public function execute(HttpRequest $request)

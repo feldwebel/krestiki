@@ -1,5 +1,9 @@
 <?php
 
+namespace Actions;
+
+use HttpRequest;
+
 class ActionResolver {
 
     private $allowedActions = ['start', 'turn', 'table', 'winner'];

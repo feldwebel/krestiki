@@ -1,5 +1,13 @@
 <?php
 
+namespace Actions;
+
+use HttpRequest;
+use HttpResponse;
+use Models\GameModel;
+use AI\StubAI;
+use CellStateEnum;
+
 class TurnAction implements IAction {
 
     const SIZE = 19;

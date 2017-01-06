@@ -1,14 +1,11 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    $engine = realpath(__DIR__ ) . '/engine/';
-    include $engine . $class . '.php';
-    include $engine . 'models/' . $class . '.php';
-    include $engine . 'actions/' . $class . '.php';
-    include $engine . 'ai/' . $class . '.php';
-});
+include __DIR__ . '/../vendor/autoload.php';
 
-$request = new HttpRequest($_POST);
+use Actions\ActionResolver;
+use \HttpRequest;
+
+$request = new \HttpRequest($_POST);
 
 $action = (new ActionResolver($request))->resolve();
 

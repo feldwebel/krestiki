@@ -1,2 +1,7 @@
 /nbproject
 log.txt
+.idea/
+krestiki.iml
+
+/vendor/
+/composer.lock

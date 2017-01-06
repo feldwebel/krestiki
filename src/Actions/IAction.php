@@ -1,5 +1,9 @@
 <?php
 
+namespace Actions;
+
+use HttpRequest;
+
 interface IAction {
 
     /**

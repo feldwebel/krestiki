@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class GameModel extends BaseModel {
 
     public function beginGame($user, array $position)

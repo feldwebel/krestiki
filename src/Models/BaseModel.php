@@ -1,5 +1,9 @@
 <?php
 
+namespace Models;
+
+use DB;
+
 class BaseModel {
 
     protected $link;
