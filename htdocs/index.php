@@ -71,8 +71,7 @@
         $.post(
             'ajax.php',
             {action: 'table'},
-            function(data){
-                result = JSON.parse(data);
+            function(result){
                 if (result['message'] === 'table') {
                     generateTable(result['payload']);
                 }
@@ -90,8 +89,7 @@
             $.post(
                 'ajax.php',
                 {action: 'turn', user: $userId, row: row, col: col},
-                function (data){
-                    result = JSON.parse(data);
+                function (result){
                     for (i = 0; i < 20; i++){
                         for (j = 0; j < 20; j++) {
                             if (result['payload'][i][j] !== 0) {
@@ -122,8 +120,7 @@
         $.post(
             'ajax.php',
             {action: 'winner', user: $userId, name: $('#winner').val(), time: $('#timeSpent').val()},
-            function(data){
-                result = JSON.parse(data);
+            function(result){
                 $board.hide();
                 $yourName.hide();
                 $hallOfFame.show();

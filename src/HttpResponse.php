@@ -1,6 +1,7 @@
 <?php
 
-class HttpResponse {
+class HttpResponse
+{
 
     private $message = 'ok';
     private $payload = [];
@@ -13,7 +14,13 @@ class HttpResponse {
         $this->timeSpent = $time;
     }
 
-    public function make()
+    public function sendJSON()
+    {
+        header('Content-Type: application/json');
+        echo $this->make();
+    }
+
+    private function make()
     {
         return json_encode(
             [

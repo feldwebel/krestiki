@@ -3,12 +3,12 @@
 include __DIR__ . '/../vendor/autoload.php';
 
 use Actions\ActionResolver;
-use \HttpRequest;
+use HttpRequest;
 
-$request = new \HttpRequest($_POST);
+$request = new HttpRequest($_POST);
 
 $action = (new ActionResolver($request))->resolve();
 
 $result = $action->execute($request);
 
-echo $result->make();
+$result->sendJSON();
