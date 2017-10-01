@@ -3,7 +3,6 @@
 include __DIR__ . '/../vendor/autoload.php';
 
 use Actions\ActionResolver;
-use HttpRequest;
 
 $request = new HttpRequest($_POST);
 
