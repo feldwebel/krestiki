@@ -16,7 +16,7 @@ environments:
 
     development:
         adapter: pgsql
-        host: 172.29.0.1
+        host: db
         name: tictactoe
         user: pupkine
         pass: pupkine

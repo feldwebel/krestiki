@@ -17,7 +17,7 @@ class DB {
 
     private function __construct()
     {
-        $this->link = new mysqli('localhost', 'admin', 'password', 'krestiki_dev');
+        $this->link = new PDO("pgsql:dbname=".getenv('DB_NAME').";host=db", getenv('DB_USER'), getenv('DB_PASSWORD'));
     }
 
     public function getLink()
