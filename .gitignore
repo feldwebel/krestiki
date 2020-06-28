@@ -4,4 +4,6 @@ log.txt
 krestiki.iml
 
 /vendor/
-/composer.lock
+composer.lock
+.env
+composer.phar

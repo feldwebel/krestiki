@@ -6,28 +6,28 @@ environments:
     default_migration_table: phinxlog
     default_database: development
     production:
-        adapter: mysql
+        adapter: pgsql
         host: localhost
-        name: krestiki_prod
-        user: admin
-        pass: password
-        port: 3306
+        name: tictactoe
+        user: pupkine
+        pass: pupkine
+        port: 5432
         charset: utf8
 
     development:
-        adapter: mysql
-        host: localhost
-        name: krestiki_dev
-        user: admin
-        pass: password
-        port: 3306
+        adapter: pgsql
+        host: db
+        name: tictactoe
+        user: pupkine
+        pass: pupkine
+        port: 5432
         charset: utf8
 
     testing:
-        adapter: mysql
+        adapter: pgsql
         host: localhost
-        name: krestiki_test
-        user: admin
-        pass: password
-        port: 3306
+        name: tictactoe
+        user: pupkine
+        pass: pupkine
+        port: 5432
         charset: utf8
