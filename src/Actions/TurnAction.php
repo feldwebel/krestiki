@@ -23,7 +23,8 @@ class TurnAction implements IAction {
         $this->ai = new StubAI(self::SIZE);
     }
 
-    public function execute(\HttpRequest $request) {
+    public function execute(\HttpRequest $request): HttpResponse
+    {
         $user = $request->getOrElse('user');
         $row = $request->getOrElse('row');
         $col = $request->getOrElse('col');

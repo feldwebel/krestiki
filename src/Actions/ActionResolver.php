@@ -15,7 +15,7 @@ class ActionResolver {
         $this->request = $request;
     }
 
-    public function resolve()
+    public function resolve(): IAction
     {
         $action = $this->request->getOrElse('action');
 

@@ -2,13 +2,11 @@
 
 namespace Actions;
 
-use HttpRequest;
+use \HttpRequest;
+use \HttpResponse;
 
 interface IAction {
 
-    /**
-     * @param HttpRequest $request
-     * @return HttpResponse
-     */
-    public function execute(HttpRequest $request);
+    public function execute(HttpRequest $request): HttpResponse;
+
 }

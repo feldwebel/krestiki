@@ -6,7 +6,7 @@ class TableModel extends BaseModel {
 
     public function saveNewChampion($name, $user, $time)
     {
-        $query = $this->link->prepare('insert result ("user", "name", "time") values (:user, :name, :time)');
+        $query = $this->link->prepare('insert into result ("user", "name", "time") values (:user, :name, :time)');
         $query->bindParam(":user", $user);
         $query->bindParam(":name", $name);
         $query->bindParam(":time", $time);
@@ -17,8 +17,9 @@ class TableModel extends BaseModel {
     public function getHallOfFame()
     {
         $data = $this->getTable();
+        $data->execute();
         $result = [];
-        while ($row = $data->fetchAll()) {
+        while ($row = $data->fetch(\PDO::FETCH_LAZY)) {
             $result[$row->id] = [htmlspecialchars($row->name), htmlspecialchars($row->time)];
         }
 
@@ -27,6 +28,6 @@ class TableModel extends BaseModel {
 
     private function getTable()
     {
-        return $this->link->query('select * from result order by time ASC limit 50');
+        return $this->link->query('select * from result order by "time" ASC limit 50');
     }
 }
