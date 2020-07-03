@@ -8,7 +8,7 @@ use Models\GameModel;
 
 class StartAction implements IAction {
 
-    public function execute(HttpRequest $request)
+    public function execute(HttpRequest $request): HttpResponse
     {
         $position = $this->getInitPosition();
 
@@ -17,10 +17,7 @@ class StartAction implements IAction {
         return new HttpResponse('lets start', $position);
     }
 
-    /**
-     * @return array
-     */
-    private function getInitPosition()
+    private function getInitPosition(): array
     {
         $result = [];
         for ($i = 0; $i < 20; $i++) {

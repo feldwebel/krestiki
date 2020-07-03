@@ -8,7 +8,7 @@ use Models\TableModel;
 
 class TableAction implements IAction {
 
-    public function execute(HttpRequest $request)
+    public function execute(HttpRequest $request): HttpResponse
     {
         $model = new TableModel();
 
