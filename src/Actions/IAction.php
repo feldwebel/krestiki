@@ -1,12 +1,15 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use \HttpRequest;
-use \HttpResponse;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
+use App\HttpStuff\IHttpResponse;
+
 
 interface IAction {
 
-    public function execute(HttpRequest $request): HttpResponse;
+    public function execute(HttpRequest $request): IHttpResponse;
 
 }

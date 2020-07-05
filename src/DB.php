@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App;
+
+use PDO;
+
 class DB {
 
-    private static $instance = null;
+    private static $instance;
 
-    private $link;
+    private PDO $link;
 
     private static array $opt = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

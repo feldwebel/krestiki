@@ -1,8 +1,10 @@
 <?php
 
-namespace AI;
+declare(strict_types=1);
 
-use CellStateEnum;
+namespace App\AI;
+
+use App\CellStateEnum;
 
 class StubAI implements IArtificialIntellect {
 
@@ -13,7 +15,7 @@ class StubAI implements IArtificialIntellect {
         $this->width = $width;
     }
 
-    public function makeTurn(array $position) {
+    public function makeTurn(array $position): array {
         $done = false;
         while (!$done) {
             list($row, $col) = $this->generateCell();
@@ -26,10 +28,7 @@ class StubAI implements IArtificialIntellect {
         return $position;
     }
 
-    /**
-     * @return array
-     */
-    private function generateCell()
+    private function generateCell(): array
     {
         return [rand(0, $this->width), rand(0, $this->width)];
     }

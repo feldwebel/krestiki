@@ -1,8 +1,10 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use HttpRequest;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
 
 class ActionResolver {
 
@@ -17,6 +19,10 @@ class ActionResolver {
 
     public function resolve(): IAction
     {
+        if ($this->request->isGet()) {
+            return new IndexAction();
+        }
+
         $action = $this->request->getOrElse('action');
 
         if (!$action || !in_array($action, $this->allowedActions)) {

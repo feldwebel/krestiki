@@ -1,6 +1,8 @@
 <?php
 
-namespace Models;
+declare(strict_types=1);
+
+namespace App\Models;
 
 class GameModel extends BaseModel {
 

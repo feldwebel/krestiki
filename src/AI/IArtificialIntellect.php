@@ -1,12 +1,10 @@
 <?php
 
-namespace AI;
+declare(strict_types=1);
+
+namespace App\AI;
 
 interface IArtificialIntellect {
 
-    /**
-     * @param array $position
-     * @return array
-     */
-    public function makeTurn(array $position);
+    public function makeTurn(array $position): array;
 }

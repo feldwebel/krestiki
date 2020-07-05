@@ -4,6 +4,7 @@
     "require": {
         "php": ">=7.0",
         "ext-pdo": "*",
+        "ext-json": "*",
         "robmorgan/phinx": "^0.6.5"
     },
     "require-dev": {
@@ -18,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {

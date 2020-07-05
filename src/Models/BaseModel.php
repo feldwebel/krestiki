@@ -1,8 +1,10 @@
 <?php
 
-namespace Models;
+declare(strict_types=1);
 
-use DB;
+namespace App\Models;
+
+use App\DB;
 
 class BaseModel {
 

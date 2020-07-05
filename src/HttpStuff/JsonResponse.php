@@ -1,6 +1,10 @@
 <?php
 
-class HttpResponse
+declare(strict_types=1);
+
+namespace App\HttpStuff;
+
+class JsonResponse implements IHttpResponse
 {
 
     private $message = 'ok';
@@ -14,13 +18,13 @@ class HttpResponse
         $this->timeSpent = $time;
     }
 
-    public function sendJSON()
+    public function render(): void
     {
         header('Content-Type: application/json');
         echo $this->make();
     }
 
-    private function make()
+    private function make(): string
     {
         return json_encode(
             [

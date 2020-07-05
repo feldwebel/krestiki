@@ -1,14 +1,16 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use HttpRequest;
-use HttpResponse;
-use Models\TableModel;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
+use App\HttpStuff\JsonResponse;
+use App\Models\TableModel;
 
 class TableAction implements IAction {
 
-    public function execute(HttpRequest $request): HttpResponse
+    public function execute(HttpRequest $request): JsonResponse
     {
         $model = new TableModel();
 
@@ -16,6 +18,6 @@ class TableAction implements IAction {
             $model->saveNewChampion($request->getOrElse('name'), $request->getOrElse('user'), $request->getOrElse('time'));
         }
 
-        return new HttpResponse('table', $model->getHallOfFame());
+        return new JsonResponse('table', $model->getHallOfFame());
     }
 }

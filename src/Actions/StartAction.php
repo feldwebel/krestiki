@@ -1,20 +1,22 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use HttpRequest;
-use HttpResponse;
-use Models\GameModel;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
+use App\HttpStuff\JsonResponse;
+use App\Models\GameModel;
 
 class StartAction implements IAction {
 
-    public function execute(HttpRequest $request): HttpResponse
+    public function execute(HttpRequest $request): JsonResponse
     {
         $position = $this->getInitPosition();
 
         (new GameModel())->beginGame($request->getOrElse('user'), $position);
 
-        return new HttpResponse('lets start', $position);
+        return new JsonResponse('lets start', $position);
     }
 
     private function getInitPosition(): array

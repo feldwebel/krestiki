@@ -1,15 +1,17 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use HttpRequest;
-use HttpResponse;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
+use App\HttpStuff\JsonResponse;
 
 class ErrorAction implements IAction {
 
-    public function execute(HttpRequest $request): HttpResponse
+    public function execute(HttpRequest $request): JsonResponse
     {
-        return new HttpResponse('error');
+        return new JsonResponse('error');
     }
 
 }

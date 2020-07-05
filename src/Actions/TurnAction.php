@@ -1,12 +1,14 @@
 <?php
 
-namespace Actions;
+declare(strict_types=1);
 
-use HttpRequest;
-use HttpResponse;
-use Models\GameModel;
-use AI\StubAI;
-use CellStateEnum;
+namespace App\Actions;
+
+use App\HttpStuff\HttpRequest;
+use App\HttpStuff\JsonResponse;
+use App\Models\GameModel;
+use App\AI\StubAI;
+use App\CellStateEnum;
 
 class TurnAction implements IAction {
 
@@ -23,7 +25,7 @@ class TurnAction implements IAction {
         $this->ai = new StubAI(self::SIZE);
     }
 
-    public function execute(\HttpRequest $request): HttpResponse
+    public function execute(HttpRequest $request): JsonResponse
     {
         $user = $request->getOrElse('user');
         $row = $request->getOrElse('row');
@@ -35,45 +37,32 @@ class TurnAction implements IAction {
             $position[$row][$col] = CellStateEnum::USER;
         }
 
-        if ($this->isWin($position, CellStateEnum::USER, $row, $col)) {
+        if ($this->isWin($position, CellStateEnum::USER, (int)$row, (int)$col)) {
             return
                 $this->gameOver('you win', $user, $position);
         }
 
         $position = $this->ai->makeTurn($position);
-        if ($this->isWin($position, CellStateEnum::AI, $row, $col)) {
+        if ($this->isWin($position, CellStateEnum::AI, (int)$row, (int)$col)) {
             return
                 $this->gameOver('you lose', $user, $position);
         }
 
         $this->model->savePosition($user, $position);
 
-        return new HttpResponse('next turn', $position);
+        return new JsonResponse('next turn', $position);
     }
 
-    /**
-     * @param string $message
-     * @param string $user
-     * @param array $position
-     * @return \HttpResponse
-     */
-    private function gameOver($message, $user, array $position)
+
+    private function gameOver(string $message, string $user, array $position): JsonResponse
     {
         $this->model->savePosition($user, $position);
         $this->model->saveEnd($user);
         $time = $this->model->getTimeSpent($user);
-        return new HttpResponse($message, $position, $time);
+        return new JsonResponse($message, $position, $time);
     }
 
-    /**
-     *
-     * @param array $position
-     * @param string $p
-     * @param int $row
-     * @param int $col
-     * @return boolean
-     */
-    private function isWin(array $position, $p, $row, $col)
+    private function isWin(array $position, string $p, int $row, int $col): bool
     {
         $streak1 = $streak2 = 0; // + check
         for ($i = 0; $i <= self::SIZE; $i++) {
