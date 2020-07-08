@@ -11,10 +11,13 @@ class HttpRequest {
 
     private ?array $params;
     private string $method;
+    private ?string $endpoint;
 
     public function __construct($request = [])
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->endpoint = $_SERVER['REQUEST_URI'];
+
         foreach ($request['_POST'] as $name => $element) {
             $this->params[$name] = $element;
         }
