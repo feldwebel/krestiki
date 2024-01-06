@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="utf-8">
-  <title>Пример страницы</title>
+  <title>Крестики-нолики</title>
   <style>
       #board {display: none;}
       #hallOfFame {display: none;}
@@ -11,7 +11,7 @@
   </style>
  </head>
  <body>
-  <p>Крестики-нолики</p>
+  <H1>Крестики-нолики</H1>
   <ul>
       <li><a href="#" id="play">Играть</a></li>
       <li><a href="#" id="table">Таблица результатов</a></li>
@@ -37,25 +37,25 @@
     function generateBoard() {
         $board.empty();
         $gameOver = false;
-        for (i = 0; i < 20; i++) {
-            $board.append('<div class="row" data-row='+i+'></div>');
-            for (j = 0; j < 20; j++) {
-                $board.find('.row').last().append('<div class="cell" data-column='+j+'>&nbsp;</div>');
+        for (let i = 0; i < 20; i++) {
+            $board.append($('<div>').addClass('row').data('row', i));
+            for (let j = 0; j < 20; j++) {
+                $board.find('.row').last().append($('<div>').addClass("cell").data('column', j).html('&nbsp;'));
             }
         }
     }
 
-    function generateTable(table) {
+    function generateTable(data) {
         $hallOfFame.empty();
-        $hallOfFame.append('<table><tr><td>Имя</td><td>Время</td></tr>');
-        for (row in table) {
-            $hallOfFame.append('<tr><td>' + table[row][0] + '</td><td>' + table[row][1] + '</td></tr>');
+        let tbl = $('<table>').append($('<tr>').append($('<th>').html("Имя")).append($('<th>').html("Время")))
+        for (const row in data) {
+            tbl.append($('<tr>').append($('<td>').html(data[row][0])).append($('<td>').html(data[row][1])))
         }
-        $hallOfFame.append('</table>');
+        $hallOfFame.append(tbl);
     }
 
     $('#play').on('click', function(){
-        $userId = Math.random().toString(36);
+        const $userId = Math.random().toString(36);
         $.post(
             'ajax.php',
             {action: 'start', user: $userId},
@@ -83,7 +83,7 @@
     });
 
     $board.on('click', '.cell', function(){
-        if(!$gameOver && $(this).html() == '&nbsp;') {
+        if(!$gameOver && !['x', 'o'].includes($(this).html())) {
             var row = $(this).parent().data('row');
             var col = $(this).data('column');
             $.post(
@@ -111,7 +111,7 @@
                 }
             );
         } else {
-            var $alert = ($gameOver) ? 'GameOver' : 'Cell is already taken';
+            const $alert = ($gameOver) ? 'GameOver' : 'Cell is already taken';
             alert($alert);
         }
     });
