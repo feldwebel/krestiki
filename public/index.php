@@ -28,11 +28,11 @@
 
   <script src="http://yastatic.net/jquery/2.2.3/jquery.min.js"></script>
   <script>
-      $userId = '';
-      $board = $('#board');
-      $hallOfFame = $('#hallOfFame');
-      $yourName = $('#yourName');
-      $gameOver = false;
+      let $userId = '';
+      let $board = $('#board');
+      let $hallOfFame = $('#hallOfFame');
+      let $yourName = $('#yourName');
+      let $gameOver = false;
 
     function generateBoard() {
         $board.empty();
@@ -55,7 +55,7 @@
     }
 
     $('#play').on('click', function(){
-        const $userId = Math.random().toString(36);
+        $userId = Math.random().toString(36);
         $.post(
             'ajax.php',
             {action: 'start', user: $userId},

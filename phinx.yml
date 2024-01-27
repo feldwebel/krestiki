@@ -1,6 +1,6 @@
 paths:
-    migrations: %%PHINX_CONFIG_DIR%%/db/migrations
-    seeds: %%PHINX_CONFIG_DIR%%/db/seeds
+    migrations: ./db/migrations
+    seeds: ./db/seeds
 
 environments:
     default_migration_table: phinxlog
@@ -17,9 +17,9 @@ environments:
     development:
         adapter: pgsql
         host: db
-        name: tictactoe
-        user: pupkine
-        pass: pupkine
+        name: dbname
+        user: user
+        pass: password
         port: 5432
         charset: utf8
 
